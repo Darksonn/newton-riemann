@@ -1,4 +1,10 @@
 
+/*
+  Class for dual numbers.
+  Dual numbers exhibit the following property for any analytic function f:
+    f(dual(x, 1)) = dual(f(x), f'(x))
+  This makes them useful for calculating the value and derivative of a function.
+ */
 template <typename T>
 class dual {
   public:
