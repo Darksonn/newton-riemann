@@ -18,39 +18,39 @@ class dual {
     }
 
     inline __host__ __device__
-    dual<T> operator+(const dual<T> that) {
+    dual<T> operator+(const dual<T> that) const {
       dual<T> out;
       out.a = a + that.a;
       out.b = b + that.b;
       return out;
     }
     inline __host__ __device__
-    dual<T> operator-() {
+    dual<T> operator-() const {
       dual<T> out;
       out.a = -a;
       out.b = -b;
       return out;
     }
     inline __host__ __device__
-    dual<T> operator-(dual<T> that) {
+    dual<T> operator-(const dual<T> that) const {
       return operator+(-that);
     }
     inline __host__ __device__
-    dual<T> operator*(dual<T> that) {
+    dual<T> operator*(const dual<T> that) const {
       dual<T> out;
       out.a = a * that.a;
       out.b = a * that.b + b * that.a;
       return out;
     }
     inline __host__ __device__
-    dual<T> inverse() {
+    dual<T> inverse() const {
       dual<T> out;
       out.a = T(1)/a;
       out.b = -b / (a*a);
       return out;
     }
     inline __host__ __device__
-    dual<T> operator/(dual<T> that) {
+    dual<T> operator/(const dual<T> that) const {
       return operator*(that.inverse());
     }
 
