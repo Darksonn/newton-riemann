@@ -31,8 +31,8 @@ struct newton_iteration {
     }
     struct hsb hsb;
     hsb.h = thrust::arg(z_) / (2*M_PI);
-    hsb.s = 1 / (1 + thrust::abs(z_));
-    hsb.b = 1;
+    hsb.s = 1;
+    hsb.b = 1 - 1 / (1 + thrust::abs(z_));
     struct rgb rgb = HSBtoRGB(hsb);
     return rgb;
   }
