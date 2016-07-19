@@ -62,9 +62,9 @@ dual<T> dpow(dual<T> a, dual<T> b) {
   T one = T(1);
   T zero = T();
   dual<T> out;
-  out.a = pow(a.a, b.a);
-  out.b = b.a * a.b * pow(a.a, b.a-one);
-  if (b.b != zero) out.b += b.b * out.a * log(a.a);
+  out.a = thrust::pow(a.a, b.a);
+  out.b = b.a * a.b * thrust::pow(a.a, b.a-one);
+  if (b.b != zero) out.b += b.b * out.a * thrust::log(a.a);
   return out;
 }
 template <typename T>
@@ -79,7 +79,7 @@ template <typename T>
 inline __host__ __device__
 dual<T> dlog(dual<T> x) {
   dual<T> out;
-  out.a = log(x.a);
+  out.a = thrust::log(x.a);
   out.b = x.b / x.a;
   return out;
 }
