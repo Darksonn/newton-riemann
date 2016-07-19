@@ -8,7 +8,7 @@
 
 #define LOOP_COUNT 30000
 #define GPU_ARRAYS 16
-#define NEWTON_ITERS 512
+#define NEWTON_ITERS 2048
 
 inline size_t len_from(unsigned int pixel_one) {
   unsigned int remaining = IMGW*IMGH - pixel_one;
