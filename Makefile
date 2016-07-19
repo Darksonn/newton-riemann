@@ -8,7 +8,7 @@ flat-video.mp4: img.png
 	rm -f flat-video.mp4
 	ffmpeg -r 1 -loop 1 -i img.png -c:v libx264 -t 30 -pix_fmt yuv420p flat-video.mp4
 
-newton: newton.cu gpu.cu gpu.h func.cu
+newton: newton.cu gpu.cu gpu.h func.cu color.cu color.h
 	nvcc color.cu newton.cu gpu.cu -rdc=true -std=c++11 -O2 -lm -o newton
 func.cu: func.str C-gen/eval
 	C-gen/eval "$$(cat ./func.str)" > func.cu
