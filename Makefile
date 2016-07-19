@@ -18,5 +18,5 @@ C-gen/eval: C-gen/eval.c C-gen/func.c C-gen/func.h C-gen/Makefile
 	cd rgb-to-ppm; make ppm
 
 spatial-media:
-	git clone https://github.com/google/spatial-media
+	git clone https://github.com/google/spatial-media spatial-media
 
