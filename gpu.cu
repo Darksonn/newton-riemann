@@ -8,6 +8,9 @@
 
 typedef thrust::complex<f> complex;
 
+// decrease this value to make the image brighter
+#define BRIGHTNESS_EPSILON 0.1
+
 struct newton_iteration {
   const unsigned int iter;
   const dual<complex> t;
@@ -29,11 +32,8 @@ struct newton_iteration {
         ;
       z_ = z_ - fz.a / fz.b;
     }
-    struct hsb hsb;
-    hsb.h = thrust::arg(z_) / (2*M_PI);
-    hsb.s = 1;
-    hsb.b = 1 - 1 / (1 + thrust::abs(z_));
-    struct rgb rgb = HSBtoRGB(hsb);
+    struct hsl hsl(thrust::arg(z_) / (2*M_PI), 1, 1 - 1 / (1 + thrust::abs(z_) * BRIGHTNESS_EPSILON));
+    struct rgb rgb = HSLtoRGB(hsl);
     return rgb;
   }
 };
