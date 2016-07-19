@@ -6,6 +6,8 @@
 #include "dual.cu"
 #include "color.h"
 
+// change the precision of the newton iterations by changing the f typedef
+// long double probably wont compile if the function isn't a rational function
 typedef double f;
 typedef thrust::complex<f> complex;
 
