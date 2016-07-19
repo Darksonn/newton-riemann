@@ -1,6 +1,6 @@
 
 img.png: newton ./rgb-to-ppm/ppm
-	time ./newton | sort -n -k2 -k1 | ./rgb-to-ppm/ppm 3840 2160 | convert - img.png
+	./newton | sort -n -k2 -k1 | ./rgb-to-ppm/ppm 3840 2160 | convert - img.png
 
 spherical-video.mp4: flat-video.mp4 spatial-media
 	python2.7 ./spatial-media/spatialmedia/__main__.py -i flat-video.mp4 spherical-video.mp4
