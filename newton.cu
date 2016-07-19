@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdint.h>
 
 #include "gpu.h"
@@ -25,7 +26,57 @@ void write_data(thrust::host_vector<struct rgb>& H, size_t len, unsigned int pix
   }
 }
 
+// the following three functions parse the time command-line parameter to a
+// complex using recursive descent
+f parse_float(char **str) {
+  char *p = *str;
+  bool exp_last = false;
+  while (isdigit(*p) || *p == '.' || *p == 'e' || *p == 'E') {
+loop_again:
+    exp_last = *p == 'e' || *p == 'E';
+    ++p;
+  }
+  if (exp_last && (*p == '-' || *p == '+')) goto loop_again;
+  char c = *p;
+  *p = 0;
+  f res;
+  sscanf(*str, "%" PRIf, &res);
+  *p = c;
+  *str = p;
+  return res;
+}
+thrust::complex<f> parse_term(char **str) {
+  thrust::complex<f> unit(1), i(0, 1);
+  while (**str == 'i' || **str == 'j') {
+    (*str)++;
+    unit *= i;
+  }
+  f abs(parse_float(str));
+  while (**str == 'i' || **str == 'j') {
+    (*str)++;
+    unit *= i;
+  }
+  return thrust::complex<f>(abs) * unit;
+}
+thrust::complex<f> parse_complex(char *str) {
+  thrust::complex<f> final(0);
+  while (*str) {
+    thrust::complex<f> unit(1);
+    if (*str == '-') unit = -1;
+    if (*str == '-' || *str == '+') ++str;
+    thrust::complex<f> term(parse_term(&str));
+    final += unit * term;
+  }
+  return final;
+}
+
 int main(int argc, char **argv) {
+
+  thrust::complex<f> t(0);
+  if (argc > 1) {
+    t = parse_complex(argv[1]);
+  }
+
   thrust::device_vector<struct rgb> D[GPU_ARRAYS];
   thrust::host_vector<struct rgb> H(LOOP_COUNT);
   size_t lens[GPU_ARRAYS];
@@ -50,7 +101,7 @@ int main(int argc, char **argv) {
     lens[gpu] = len;
     po[gpu] = next_po;
     thrust::counting_iterator<unsigned int> counter(next_po);
-    newton_fast(NEWTON_ITERS, len, counter, D[gpu]);
+    newton_fast(NEWTON_ITERS, t, len, counter, D[gpu]);
     gpu = (gpu + 1) % GPU_ARRAYS;
     next_po += len;
   }

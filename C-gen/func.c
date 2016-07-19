@@ -100,6 +100,12 @@ start:
     a[1] = 0;
     return a;
   }
+  if (len == 1 && *str == 't') {
+    char *a = malloc(sizeof(char)*2);
+    *a = 't';
+    a[1] = 0;
+    return a;
+  }
   size_t i;
   for (i = 0; i < len; ++i) {
     switch (str[i]) {

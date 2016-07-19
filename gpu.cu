@@ -6,15 +6,13 @@
 #include "dual.cu"
 #include "color.h"
 
-// change the precision of the newton iterations by changing the f typedef
-// long double probably wont compile if the function isn't a rational function
-typedef double f;
 typedef thrust::complex<f> complex;
 
 struct newton_iteration {
   const unsigned int iter;
+  const dual<complex> t;
 
-  newton_iteration(unsigned int _iter) : iter(_iter) {}
+  newton_iteration(unsigned int _iter, complex _t) : iter(_iter), t(_t) {}
 
   __host__ __device__
   struct rgb operator()(const unsigned int& p) const {
@@ -40,8 +38,8 @@ struct newton_iteration {
   }
 };
 
-void newton_fast(unsigned int iter, int len,
+void newton_fast(unsigned int iter, complex t, int len,
     thrust::counting_iterator<unsigned int>& X, thrust::device_vector<struct rgb>& Y) {
-  thrust::transform(X, X + len, Y.begin(), newton_iteration(iter));
+  thrust::transform(X, X + len, Y.begin(), newton_iteration(iter, t));
 }
 
