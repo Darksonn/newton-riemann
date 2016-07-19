@@ -6,9 +6,9 @@ class dual {
     typedef T value_type;
 
     inline __host__ __device__
-    dual(const T & re = T(), const T & im = T()) {
-      a = re;
-      b = im;
+    dual(const T & _a = T(), const T & _b = T()) {
+      a = _a;
+      b = _b;
     }
 
     inline __host__ __device__
