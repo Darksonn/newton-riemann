@@ -26,8 +26,8 @@ uploaded to youtube in order to view the image in 360°, call
 `make spherical-video.mp4`.
 
 ### Usage with script
-The script `newton-frame.sh` is used to create many frames, in order to make an
-animated video from the frames. The usage of the script can be found by running
+The script `newton-frame.sh` is used to create many frames, which can be used to
+create animated videos.  The usage of the script can be found by running
 the script without parameters, and is shown below:
 
     Usage: ./newton-frame.sh function file-pattern frame-start frame-end
