@@ -9,3 +9,4 @@ C-gen/eval
 C-gen/eval.o
 C-gen/func.o
 rgb-to-ppm/ppm
+resume.sh
