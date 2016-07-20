@@ -17,6 +17,10 @@ printf '%s' "$FUNCTION" > func.str
 STARTTIME=$(date +%s.%N)
 printf 'compiling ./newton\n'
 make ./newton > /dev/null
+if [[ $? != 0 ]]; then
+  printf 'Compilation failed.\n'
+  exit 1
+fi
 ENDTIME=$(date +%s.%N)
 printf '%scompiled ./newton in %.01f seconds' "$(tput cuu1)" "$(echo "$ENDTIME - $STARTTIME" | bc -l)"
 
