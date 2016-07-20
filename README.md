@@ -42,6 +42,9 @@ a different iteration count than standard.
 
     ./newton-frame.sh 'exp(x)-t/10' frames/frame%02d.png 1 10
 
+If the computations gets interrupted, you can continue from the last frame by
+running the `resume.sh` script.
+
 ## Changing the iteration count
 The amount of iterations of Newton's method performed on each pixel can be
 changed in the file `newton.cu`, and is found in the macro `NEWTON_ITERS`.
