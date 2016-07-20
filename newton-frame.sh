@@ -14,7 +14,7 @@ FRAMESTART="$3"
 FRAMEEND="$4"
 
 printf '%s' "$FUNCTION" > func.str
-# make ./newton
+make ./newton
 
 STARTTIME=$(date +%s.%N)
 
