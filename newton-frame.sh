@@ -15,9 +15,10 @@ FRAMEEND="$4"
 
 printf '%s' "$FUNCTION" > func.str
 STARTTIME=$(date +%s.%N)
-make ./newton
+printf 'compiling ./newton\n'
+make ./newton > /dev/null
 ENDTIME=$(date +%s.%N)
-printf 'compiled ./newton in %.01f seconds\n' "$(echo "$ENDTIME - $STARTTIME" | bc -l)"
+printf '%scompiled ./newton in %.01f seconds' "$(tput cuu1)" "$(echo "$ENDTIME - $STARTTIME" | bc -l)"
 
 STARTTIME=$(date +%s.%N)
 
@@ -27,20 +28,25 @@ fi
 FRAMESTARTREAL="$FRAMESTART"
 if [ -n "$PREVFRAMESTART" ]; then
   FRAMESTARTREAL="$PREVFRAMESTART"
+  printf '. Resuming from frame %s\n' "$FRAMESTART"
+else
+  printf '. Computing first frame.\n'
 fi
 
 
 for ((i="$FRAMESTART";i<="$FRAMEEND";i++)); do
   FILE="$(printf "$FILEPATTERN" $i)"
+  FRAMESTARTTIME=$(date +%s.%N)
   ./newton $i | sort -n -k2 -k1 | ./rgb-to-ppm/ppm 3840 2160 | convert - "$FILE"
   ENDTIME=$(date +%s.%N)
+  FRAMEDIFF=$(echo "$ENDTIME-$FRAMESTARTTIME" | bc -l)
   PERCENT=$(echo "100*($i - $FRAMESTARTREAL + 1) / ($FRAMEEND - $FRAMESTARTREAL + 1)" | bc -l)
   DIFFSEC=$(echo "$ENDTIME - $STARTTIME" | bc -l)
   DIFF=$(echo "($DIFFSEC)/60" | bc -l)
   TOTAL=$(echo "($DIFF / ($i-$FRAMESTARTREAL+1)) * ($FRAMEEND-$FRAMESTARTREAL+1)" | bc -l)
   REMAIN=$(echo "$TOTAL - $DIFF" | bc -l)
   Ni=$((i+1))
-  printf '%scompleted frame %d/%d (%.02f%%) (used: %.01fm, total: %.01fm, remaining: %.01fm) \n' "$(tput cuu1)" $i "$FRAMEEND" "$PERCENT" "$DIFF" "$TOTAL" "$REMAIN"
+  printf '%scompleted frame %d/%d (%.02f%%) (used: %.01fm, total: %.01fm, remaining: %.01fm, this frame: %.01fs) \n' "$(tput cuu1)" $i "$FRAMEEND" "$PERCENT" "$DIFF" "$TOTAL" "$REMAIN" "$FRAMEDIFF"
   printf '#!/bin/bash\nexport PREVDIFF="%s"\nexport PREVFRAMESTART="%s"\n%s "%s" "%s" "%s" "%s"\nunset PREVDIFF\nunset PREVFRAMESTART\n' "$DIFFSEC" "$FRAMESTARTREAL" "$0" "$FUNCTION" "$FILEPATTERN" "$Ni" "$FRAMEEND" > ./resume.sh
   chmod +x ./resume.sh
 done
