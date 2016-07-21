@@ -9,7 +9,7 @@
 typedef thrust::complex<f> complex;
 
 // increase this value to make the image brighter
-#define BRIGHTNESS_EPSILON 0.1
+#define BRIGHTNESS_EPSILON 0.05
 
 struct newton_iteration {
   const unsigned int iter;

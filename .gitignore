@@ -2,7 +2,7 @@ flat-video.mp4
 img.png
 newton
 out
-func.cu
+src/func.cu
 spatial-media
 spherical-video.mp4
 C-gen/eval
