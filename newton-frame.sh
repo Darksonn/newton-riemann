@@ -41,7 +41,7 @@ fi
 for ((i="$FRAMESTART";i<="$FRAMEEND";i++)); do
   FILE="$(printf "$FILEPATTERN" $i)"
   FRAMESTARTTIME=$(date +%s.%N)
-  ./newton $i | sort -n -k2 -k1 | ./ppm/ppm 3840 2160 | convert - "$FILE"
+  ./newton $i | sort -n -k2 -k1 | ppm/ppm 3840 2160 | convert - "$FILE"
   ENDTIME=$(date +%s.%N)
   FRAMEDIFF=$(echo "$ENDTIME-$FRAMESTARTTIME" | bc -l)
   PERCENT=$(echo "100*($i - $FRAMESTARTREAL + 1) / ($FRAMEEND - $FRAMESTARTREAL + 1)" | bc -l)
@@ -51,9 +51,9 @@ for ((i="$FRAMESTART";i<="$FRAMEEND";i++)); do
   REMAIN=$(echo "$TOTAL - $DIFF" | bc -l)
   Ni=$((i+1))
   printf '%scompleted frame %d/%d (%.02f%%) (used: %.01fm, total: %.01fm, remaining: %.01fm, this frame: %.01fs) \n' "$(tput cuu1)" $i "$FRAMEEND" "$PERCENT" "$DIFF" "$TOTAL" "$REMAIN" "$FRAMEDIFF"
-  printf '#!/bin/bash\nexport PREVDIFF="%s"\nexport PREVFRAMESTART="%s"\n%s "%s" "%s" "%s" "%s"\nunset PREVDIFF\nunset PREVFRAMESTART\n' "$DIFFSEC" "$FRAMESTARTREAL" "$0" "$FUNCTION" "$FILEPATTERN" "$Ni" "$FRAMEEND" > ./resume.sh
-  chmod +x ./resume.sh
+  printf '#!/bin/bash\nexport PREVDIFF="%s"\nexport PREVFRAMESTART="%s"\n%s "%s" "%s" "%s" "%s"\nunset PREVDIFF\nunset PREVFRAMESTART\n' "$DIFFSEC" "$FRAMESTARTREAL" "$0" "$FUNCTION" "$FILEPATTERN" "$Ni" "$FRAMEEND" > resume.sh
+  chmod +x resume.sh
 done
 
-rm -f ./resume.sh
+rm -f resume.sh
 
