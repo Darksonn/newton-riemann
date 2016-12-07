@@ -12,7 +12,7 @@ later versions.
 An nvidia GPU is required to run the code.
 
  * __CUDA__ 7.5.18-4 (files in `src/`)
- * __gcc__ 6.1.1 (files in `C-gen/` and `rgb-to-ppm/`) also tested with version 5.4.0
+ * __gcc__ 6.1.1 (files in `genfunc/` and `ppm/`) also tested with version 5.4.0
  * __ffmpeg__ 3.0.2 (creating video files from frames)
  * __image magick__ 6.9.5-2 (creating png files of the frames)
  * __python__ 2.7.12 (embedding 360° metadata into video-files)

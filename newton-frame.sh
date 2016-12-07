@@ -41,7 +41,7 @@ fi
 for ((i="$FRAMESTART";i<="$FRAMEEND";i++)); do
   FILE="$(printf "$FILEPATTERN" $i)"
   FRAMESTARTTIME=$(date +%s.%N)
-  ./newton $i | sort -n -k2 -k1 | ./rgb-to-ppm/ppm 3840 2160 | convert - "$FILE"
+  ./newton $i | sort -n -k2 -k1 | ./ppm/ppm 3840 2160 | convert - "$FILE"
   ENDTIME=$(date +%s.%N)
   FRAMEDIFF=$(echo "$ENDTIME-$FRAMESTARTTIME" | bc -l)
   PERCENT=$(echo "100*($i - $FRAMESTARTREAL + 1) / ($FRAMEEND - $FRAMESTARTREAL + 1)" | bc -l)
