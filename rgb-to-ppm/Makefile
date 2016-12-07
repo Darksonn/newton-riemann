@@ -1,2 +1,5 @@
+CC ?= cc
+CFLAGS ?= -O2
+
 ppm: ppm.c
-	gcc ppm.c -O2 -o ppm
+	$(CC) $(CFLAGS) -o $@ $<
