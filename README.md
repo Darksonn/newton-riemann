@@ -1,4 +1,4 @@
-# Newton--Riemann
+# Newton–Riemann
 
 Tool for creating 360° videos of [Newton fractals][1].
 
